@@ -1,0 +1,34 @@
+groups:
+  - name: system_alerts
+    rules:
+      - alert: HighTemperature
+        expr: node_hwmon_temp_celsius > 80
+        for: 2m
+        labels:
+          severity: critical
+        annotations:
+          description: "Температура сервера превышает 80°C ({{ $value }}°C)"
+
+      - alert: HighCPUUsage
+        expr: (100 - (avg by (instance)(irate(node_cpu_seconds_total{mode="idle"}[5m])) * 100)) > 85
+        for: 3m
+        labels:
+          severity: warning
+        annotations:
+          description: "Нагрузка CPU превышает 85% ({{ $value }}%)"
+
+      - alert: HighMemoryUsage
+        expr: (1 - (node_memory_MemAvailable_bytes / node_memory_MemTotal_bytes)) * 100 > 90
+        for: 3m
+        labels:
+          severity: warning
+        annotations:
+          description: "Использование оперативной памяти превышает 90% ({{ $value }}%)"
+
+      - alert: DiskAlmostFull
+        expr: (node_filesystem_avail_bytes{mountpoint="/"} / node_filesystem_size_bytes{mountpoint="/"}) < 0.1
+        for: 5m
+        labels:
+          severity: warning
+        annotations:
+          description: "Мало свободного места на диске (осталось менее 10%)"
