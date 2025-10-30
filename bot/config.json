@@ -1,0 +1,5 @@
+{
+  "BOT_TOKEN": "8157382379:AAGf0bxhk3vSgKAEvQY_hu6xPtjm-1jKhtI",
+  "PROMETHEUS_URL": "http://10.11.1.5:9090",
+  "ADMIN_CHAT_ID": 632306300
+}
